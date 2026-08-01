@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SentiScope AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="logo">
+        🌿 <span>SentiScope AI</span>
+    </div>
+
+<button class="about-btn" id="aboutBtn">
+
+About
+
+</button>
+</header>
+
+<section class="hero">
+
+    <h1>SENTISCOPE AI</h1>
+
+    <p>
+        AI Powered Movie Review Sentiment Analyzer
+    </p>
+
+</section>
+
+<main>
+
+    <!-- ===========================
+    Single Review Prediction
+    ============================ -->
+
+    <section class="glass-card">
+
+        <form action="/predict" method="POST">
+
+            <h2>Share your movie review</h2>
+
+            <p class="hint">
+                Paste a movie review and let the model predict its sentiment.
+            </p>
+
+            <textarea
+                name="review"
+                placeholder="Type or paste your review here..."
+                required>{{ review if review else "" }}</textarea>
+
+            <button
+                class="analyze-btn"
+                type="submit">
+
+                ✨ Analyze Review
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- ===========================
+    CSV Upload
+    ============================ -->
+
+    <section class="glass-card">
+
+        <h2>Batch Review Analysis</h2>
+
+        <p class="hint">
+            Upload a CSV file containing movie reviews.
+        </p>
+
+        <form
+            action="/upload"
+            method="POST"
+            enctype="multipart/form-data">
+
+            <input
+                type="file"
+                name="file"
+                accept=".csv"
+                required>
+
+            <button
+                class="analyze-btn"
+                type="submit">
+
+                📂 Analyze CSV
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+    {% if prediction %}
+
+    <section class="result-card">
+
+        <div class="emoji">
+
+            {% if "Positive" in prediction %}
+                😊
+            {% else %}
+                😞
+            {% endif %}
+
+        </div>
+
+        <div class="content">
+
+            <h3>{{ prediction }}</h3>
+
+            <p>Confidence Score</p>
+
+            <div class="progress">
+
+                <div
+                    class="progress-fill"
+                    style="width: {{ confidence }}%;">
+
+                </div>
+
+            </div>
+
+            <strong>{{ confidence }}%</strong>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+</main>
+
+
+
+<footer>
+
+Every review tells a story. We analyze the emotion.
+
+</footer>
+
+<!-- ABOUT MODAL -->
+
+<div id="aboutModal" class="modal">
+
+<div class="modal-content">
+
+<span id="closeModal">&times;</span>
+
+<h2>About SentiScope AI</h2>
+
+<p>
+
+SentiScope AI is an AI-powered sentiment analysis platform that predicts whether movie reviews are positive or negative using Machine Learning.
+
+</p>
+
+<hr>
+
+<h3>Technology Stack</h3>
+
+<ul>
+
+<li>Python</li>
+
+<li>Flask</li>
+
+<li>Scikit-Learn</li>
+
+<li>TF-IDF Vectorizer</li>
+
+<li>Logistic Regression</li>
+
+<li>Pandas</li>
+
+</ul>
+
+<p>
+
+Model Accuracy
+
+<strong>89.2%</strong>
+
+</p>
+
+</div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
