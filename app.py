@@ -12,6 +12,9 @@ from flask import Flask, render_template, request, send_file
 
 app = Flask(__name__)
 
+# Base directory for file paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Store report statistics
 report_data = {}
 
@@ -117,7 +120,8 @@ def upload():
 
     plt.title("Sentiment Distribution")
 
-    plt.savefig("static/images/chart.png")
+    chart_path = os.path.join(BASE_DIR, "static", "images", "chart.png")
+    plt.savefig(chart_path)
 
     plt.close()
 
