@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use("Agg")
+
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 import matplotlib.pyplot as plt
