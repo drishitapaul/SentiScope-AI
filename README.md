@@ -1,100 +1,305 @@
-# Movie Review Sentiment Classifier
+<div align="center">
 
-**Business question:** Can we automatically tell whether a review is
-positive or negative, accurately enough to be useful — e.g. flagging
-negative reviews for follow-up, or tracking sentiment trends over time
-without reading every review by hand?
+# 🌿 SentiScope AI
 
-## Data
+### AI-Powered Movie Review Sentiment Analysis Platform
 
-50,000 IMDB movie reviews, labeled positive/negative, perfectly balanced
-(25,000 each). This is a standard benchmark dataset for text classification
-(originally compiled by Maas et al. for exactly this task), which is a
-plus, not a minus — it means the results here are comparable to a known
-baseline rather than an unverifiable one-off number.
+Automatically classify movie reviews as **Positive** or **Negative** using Machine Learning with confidence scores, interactive analytics, batch CSV processing, and downloadable PDF reports.
 
-## Cleaning (`01_data_cleaning.py`)
+🌐 **Live Demo:** https://drishu.pythonanywhere.com/
 
-| Issue | Rows affected | Action |
-|---|---|---|
-| Duplicate reviews | 418 | Dropped |
-| HTML tags in text (`<br />`) | most rows | Stripped |
-| Punctuation/numbers | all rows | Removed, lowercased |
+📂 **GitHub Repository:** https://github.com/drishitapaul/SentiScope-AI
 
-**Result:** 49,582 clean reviews, still balanced (24,884 positive / 24,698
-negative).
+<br>
 
-## Model (`02_train_model.py`)
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
+![Flask](https://img.shields.io/badge/Flask-Backend-black?logo=flask)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Logistic%20Regression-orange?logo=scikitlearn)
+![Deployment](https://img.shields.io/badge/Deployment-PythonAnywhere-success)
+![Status](https://img.shields.io/badge/Status-Live-brightgreen)
 
-**Approach:** TF-IDF vectorization (converts each review into a vector of
-word-importance scores, including 2-word phrases) + Logistic Regression.
+</div>
 
-Chosen deliberately over a neural network: it trains in seconds, the
-results are directly explainable (you can see exactly which words drove
-each prediction), and it performs strongly on this task — the accuracy
-gap to a much heavier model is small, but the "can you explain what your
-model is doing" gap is not.
+---
 
-**Split:** 80% train (39,665 reviews) / 20% test (9,917 reviews), stratified
-to keep the class balance identical in both.
+# 🎯 Business Problem
 
-### Results on the held-out test set
+Can we automatically determine whether a movie review expresses **positive** or **negative** sentiment accurately enough to support real-world applications?
+
+With thousands of user reviews generated every day, manually reading and categorizing feedback becomes slow, expensive, and difficult to scale. An automated sentiment analysis system can help organizations understand audience opinions, flag negative reviews for follow-up, and track sentiment trends over time without reading every review individually.
+
+**SentiScope AI** addresses this challenge using an explainable Machine Learning pipeline that combines **TF-IDF Vectorization** with **Logistic Regression**, delivering fast, accurate, and interpretable predictions through an interactive web application.
+
+# 📸 Application Preview
+
+Experience the complete workflow of **SentiScope AI** — from analyzing a single movie review to generating insights from an entire dataset.
+
+---
+
+## 🏠 Home Page
+
+A clean and intuitive interface where users can either analyze a single movie review or upload a CSV file for bulk sentiment analysis.
+
+![Home Page](screenshots/homepage.png)
+
+---
+
+## 💬 Single Review Prediction
+
+Users can instantly classify an individual movie review as **Positive** or **Negative**, along with the model's confidence score.
+
+![Single Review Prediction](screenshots/prediction.png)
+
+---
+
+## 📊 Batch Analytics Dashboard
+
+After uploading a CSV file, the application generates an interactive analytics dashboard featuring:
+
+- 📈 Sentiment distribution
+- 📋 Summary statistics
+- 📄 Downloadable PDF report
+- 📥 Exportable analyzed CSV
+
+![Analytics Dashboard](screenshots/dashboard.png)
+
+# 📊 Dataset
+
+The model was trained using the **IMDb Movie Reviews Dataset**, one of the most widely used benchmark datasets for binary sentiment classification.
+
+| Property | Value |
+|-----------|------:|
+| Total Reviews | 50,000 |
+| Positive Reviews | 25,000 |
+| Negative Reviews | 25,000 |
+| Distribution | Perfectly Balanced |
+
+Rather than being a limitation, using a benchmark dataset makes the project **more meaningful** because the results can be directly compared with established sentiment analysis baselines published in research.
+
+---
+
+# 🧹 Data Cleaning
+
+Before training the model, the dataset was cleaned to remove unnecessary noise while preserving the sentiment information.
+
+| Issue | Rows Affected | Action Taken |
+|--------|--------------:|-------------|
+| Duplicate Reviews | 418 | Removed |
+| HTML Tags (`<br />`) | Most Reviews | Stripped |
+| Numbers & Punctuation | All Reviews | Removed |
+| Letter Case | All Reviews | Converted to lowercase |
+
+### Final Dataset
+
+- ✅ **49,582** clean movie reviews
+- 😊 **24,884 Positive**
+- 😠 **24,698 Negative**
+
+---
+
+# 🤖 Machine Learning Model
+
+### Model Pipeline
+
+```
+Movie Review
+      │
+      ▼
+Data Cleaning
+      │
+      ▼
+TF-IDF Vectorization
+      │
+      ▼
+Logistic Regression
+      │
+      ▼
+Prediction + Confidence Score
+```
+
+---
+
+### Why TF-IDF + Logistic Regression?
+
+Instead of using a computationally expensive deep learning model, **Logistic Regression** was intentionally selected because it provides an excellent balance between **accuracy, speed, interpretability, and deployment simplicity**.
+
+The workflow consists of two stages:
+
+### 🔹 TF-IDF Vectorizer
+
+Each movie review is transformed into a numerical feature vector by assigning higher importance to informative words while reducing the influence of commonly occurring words. The vectorizer also captures **bi-grams (two-word phrases)** to better preserve context.
+
+### 🔹 Logistic Regression
+
+The transformed features are then classified into **Positive** or **Negative** sentiment using Logistic Regression.
+
+This model was chosen because it:
+
+- ⚡ Trains within seconds
+- 📈 Achieves strong classification accuracy
+- 🧠 Produces explainable predictions
+- 🚀 Is lightweight enough for real-time deployment
+- 🔍 Allows interpretation of feature importance
+
+This makes the model significantly easier to understand and deploy than many deep learning alternatives while still delivering competitive performance on this benchmark dataset.
+
+# 📈 Model Performance
+
+The model was evaluated on a **held-out test set of 9,917 reviews**, ensuring that performance metrics were measured on data never seen during training.
 
 | Metric | Score |
-|---|---|
-| Accuracy | 89.2% |
-| Precision | 88.2% |
-| Recall | 90.6% |
-| F1 Score | 89.4% |
+|----------|------:|
+| 🎯 Accuracy | **89.2%** |
+| 🎯 Precision | **88.2%** |
+| 🎯 Recall | **90.6%** |
+| 🎯 F1 Score | **89.4%** |
 
-![Model metrics](charts/model_metrics.png)
-![Confusion matrix](charts/confusion_matrix.png)
+The results demonstrate that the classifier generalizes well while maintaining a balanced trade-off between **precision** and **recall**, making it suitable for real-world sentiment analysis tasks.
 
-### What the model actually learned
+---
 
-The words it weighted most heavily match human intuition exactly, which is
-a good sanity check that it's learning the right signal, not noise:
+## 📊 Performance Visualizations
 
-![Top words](charts/top_words.png)
+### Model Evaluation Metrics
 
-Top push toward **positive**: great, excellent, best, perfect, amazing,
-wonderful.
-Top push toward **negative**: worst, awful, bad, boring, waste, poor.
+![Model Metrics](charts/model_metrics.png)
 
-## Try it yourself (`03_predict.py`)
+---
 
-```bash
-python 03_predict.py "This movie was absolutely fantastic, I loved every minute of it!"
-# -> POSITIVE (confidence: 91.3%)
+### Confusion Matrix
 
-python 03_predict.py "Waste of two hours. Terrible acting and a boring plot."
-# -> NEGATIVE (confidence: 100.0%)
+The confusion matrix shows how the model performs across both sentiment classes.
+
+![Confusion Matrix](charts/confusion_matrix.png)
+
+---
+
+# 🧠 Model Interpretation
+
+One of the biggest advantages of using **Logistic Regression** is that the predictions are **interpretable**.
+
+Instead of behaving like a black box, the model allows us to inspect which words contributed most strongly toward each sentiment class.
+
+This provides confidence that the classifier has learned meaningful linguistic patterns rather than memorizing the training data.
+
+### 😊 Strongest Positive Indicators
+
+| Word | Influence |
+|------|----------:|
+| Great | +7.220 |
+| Excellent | +6.700 |
+| Best | +5.460 |
+| Perfect | +5.411 |
+| Amazing | +5.221 |
+| Wonderful | +5.068 |
+| Favorite | +4.552 |
+| Brilliant | +4.533 |
+| Loved | +4.342 |
+| Enjoyable | +3.986 |
+
+---
+
+### 😠 Strongest Negative Indicators
+
+| Word | Influence |
+|------|----------:|
+| Worst | -9.608 |
+| Awful | -7.875 |
+| Bad | -7.411 |
+| Boring | -6.665 |
+| Waste | -6.653 |
+| Poor | -6.099 |
+| Terrible | -5.715 |
+| Horrible | -5.159 |
+| Worse | -5.104 |
+| Disappointing | -4.420 |
+
+---
+
+### Feature Importance Visualization
+
+![Top Words](charts/top_words.png)
+
+---
+
+## 💡 Key Takeaway
+
+Rather than relying on obscure internal representations, the model learned intuitive sentiment-bearing words that closely match human judgment.
+
+This interpretability is one of the key reasons Logistic Regression was selected for this project—it delivers strong predictive performance while remaining transparent and easy to explain.
+# ✨ Key Features
+
+- 🎬 Single Review Sentiment Prediction
+- 📂 Batch CSV Sentiment Analysis
+- 📊 Interactive Analytics Dashboard
+- 📄 PDF Report Generation
+- 📥 Downloadable CSV Results
+- 🎯 Confidence Score Prediction
+- 🌐 Live Web Application
+
+---
+
+# 🛠️ Tech Stack
+
+| Category | Technologies |
+|-----------|--------------|
+| Frontend | HTML • CSS • JavaScript |
+| Backend | Flask |
+| Machine Learning | Scikit-learn • Logistic Regression |
+| NLP | TF-IDF Vectorizer |
+| Data Processing | Pandas • NumPy |
+| Visualization | Matplotlib |
+| Reports | ReportLab |
+| Deployment | PythonAnywhere |
+
+---
+
+# 📂 Project Structure
+
+```
+SentiScope-AI
+│
+├── app.py
+├── model/
+├── templates/
+├── static/
+├── screenshots/
+├── charts/
+├── data/
+├── requirements.txt
+└── README.md
 ```
 
-Run with no arguments to see it evaluated against 4 built-in example
-sentences, including an ambiguous one ("it was okay, not great but not
-terrible either") to show how it handles borderline cases.
+# 🌱 Future Improvements
 
-## Tools
-Python, pandas, scikit-learn (TF-IDF, Logistic Regression), matplotlib.
+- 🤖 Transformer-based models (BERT/RoBERTa)
+- 🌍 Multi-language sentiment analysis
+- 📈 Interactive Plotly dashboards
+- ☁️ Cloud deployment with CI/CD
+- 👤 User authentication
 
-## Repo structure
-```
-data/               raw + cleaned data, metrics, top-words CSVs
-model/              saved model + vectorizer (.pkl)
-charts/             generated PNGs referenced above
-01_data_cleaning.py
-02_train_model.py
-03_predict.py
-04_visualizations.py
-README.md
-```
+---
 
-## Reproduce
-```bash
-pip install pandas scikit-learn matplotlib joblib
-python 01_data_cleaning.py
-python 02_train_model.py
-python 04_visualizations.py
-python 03_predict.py   # try your own text
-```
+# 👩‍💻 Author
+
+**Drishita Paul**
+
+Electronics & Computer Science Undergraduate
+
+Full Stack Development • AI/ML • Cloud Computing
+
+📧 **Email:** drishitapaul.0605@gmail.com
+
+💼 **LinkedIn:** https://linkedin.com/in/drishita-paul-603b54278
+
+💻 **GitHub:** https://github.com/drishitapaul
+
+---
+
+<div align="center">
+
+⭐ If you found this project interesting, consider giving it a star!
+
+Made with ❤️ by Drishita Paul
+
+</div>
